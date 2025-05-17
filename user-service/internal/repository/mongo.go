@@ -1,22 +1,25 @@
 package repository
 
 import (
-    "context"
-    "log"
-    "time"
+	"context"
+	"log"
+	"time"
 
-    "go.mongodb.org/mongo-driver/mongo"
-    "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectMongo() *mongo.Client {
-    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-    defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-    client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-    if err != nil {
-        log.Fatalf("MongoDB connect error: %v", err)
-    }
+	clientOptions := options.Client().
+		ApplyURI("mongodb://192.168.1.70:27017/?replicaSet=rs0")
 
-    return client
+	client, err := mongo.Connect(ctx, clientOptions)
+	if err != nil {
+		log.Fatalf("MongoDB connect error: %v", err)
+	}
+
+	return client
 }

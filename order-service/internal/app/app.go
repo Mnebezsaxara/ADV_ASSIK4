@@ -7,14 +7,15 @@ import (
 	"order-service/internal/handler"
 	"order-service/internal/repository"
 
+	pb "order-service/proto"
+
 	"github.com/nats-io/nats.go"
 	"google.golang.org/grpc"
-	pb "order-service/proto"
 )
 
 func Run() {
 	// Подключение к MongoDB
-	client, err := db.NewMongoClient("mongodb://localhost:27017")
+	client, err := db.NewMongoClient("mongodb://192.168.1.70:27017/?replicaSet=rs0")
 	if err != nil {
 		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}

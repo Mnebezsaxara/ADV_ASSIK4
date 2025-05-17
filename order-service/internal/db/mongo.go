@@ -12,7 +12,10 @@ func NewMongoClient(uri string) (*mongo.Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	clientOpts := options.Client().ApplyURI(uri)
+	clientOpts := options.Client().
+		ApplyURI(uri).
+		SetReplicaSet("rs0")
+
 	client, err := mongo.Connect(ctx, clientOpts)
 	if err != nil {
 		return nil, err
